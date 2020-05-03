@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String val = "All Regions(India)";
   int numInfected, numDeath, numRecovered;
   static DateTime now=DateTime.now();
-  var DATA;
+  String formattedDate="----";
 
   Future<void> _fetchData(String region) async {
     setState(() {
@@ -53,8 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final summary =
         extractedDataFiltered['unofficial-summary'] as List<dynamic>;
     final overallData = summary[0];
-    now=DateTime.parse(extractedData['lastRefreshed']);
-    DATA = summary;
+    String s=extractedData['lastRefreshed'];
+    now=DateTime.parse(s);
     print(now);
     if (region == "All Regions(India)") {
       numInfected = overallData['total'];
@@ -72,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     setState(() {
+     formattedDate = DateFormat('dd/MM/yyyy hh:mm a').format(now);
       _isLoading = false;
     });
   }
@@ -85,13 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
       await _fetchData("All Regions(India)");
       setState(() {
         _isLoading = false;
-        print("stopped");
       });
     });
     super.initState();
   }
 
-  String formattedDate = DateFormat('dd/MM/yyyy hh:mm a').format(now);
 
   @override
   Widget build(BuildContext context) {
@@ -171,8 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       }).toList(),
                       onChanged: (value) {
                         _fetchData(value);
-                        print(_isLoading);
-                        print(DATA);
                       },
                     ),
                   ),
