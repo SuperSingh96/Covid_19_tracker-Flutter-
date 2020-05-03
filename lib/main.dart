@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = true;
   String val = "All Regions(India)";
   int numInfected, numDeath, numRecovered;
+  static DateTime now=DateTime.now();
   var DATA;
 
   Future<void> _fetchData(String region) async {
@@ -52,8 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final summary =
         extractedDataFiltered['unofficial-summary'] as List<dynamic>;
     final overallData = summary[0];
+    now=DateTime.parse(extractedData['lastRefreshed']);
     DATA = summary;
-    print(summary);
+    print(now);
     if (region == "All Regions(India)") {
       numInfected = overallData['total'];
       numDeath = overallData['deaths'];
@@ -89,8 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  static DateTime now = DateTime.now();
-  String formattedDate = DateFormat('dd/MM/yyyy').format(now);
+  String formattedDate = DateFormat('dd/MM/yyyy hh:mm a').format(now);
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +104,14 @@ class _HomeScreenState extends State<HomeScreen> {
               textTop: "STAY HOME",
               textBottom: "STAY SAFE !",
             ),
+            SizedBox(
+              height: 30,
+            ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              margin: EdgeInsets.symmetric(horizontal: 5),
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               height: 60,
-              width: double.infinity,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(25),
@@ -175,9 +179,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+            SizedBox(height: 30),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 children: <Widget>[
                   Row(
@@ -200,15 +205,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 30),
                   Container(
-                    padding: EdgeInsets.all(20),
+                    // width: double.infinity,
+                    padding: EdgeInsets.all(5),
+
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.white,
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                     // crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Counter(
                           color: kInfectedColor,

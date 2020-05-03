@@ -35,17 +35,23 @@ class Counter extends StatelessWidget {
         SizedBox(height: 10),
         isLoading
             ? Center(
-              child: SizedBox(
-                child: CircularProgressIndicator(),
-                height: 25,
-                width: 25,
-              ),
-            )
-            : Text(
-              "$number",
-              style: TextStyle(
-                fontSize: 30,
-                color: color,
+                child: SizedBox(
+                  child: CircularProgressIndicator(),
+                  height: 30,
+                  width: 30,
+                ),
+              )
+            : SizedBox(
+              height: 50,
+              width: MediaQuery.of(context).size.width/3 -20,
+              child: FittedBox(
+                              child: Text(
+                  "$number",
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: color,
+                  ),
+                ),
               ),
             ),
         Text(title, style: kSubTextStyle),

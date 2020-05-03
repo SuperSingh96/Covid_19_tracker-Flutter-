@@ -21,73 +21,64 @@ class MyHeader extends StatefulWidget {
 class _MyHeaderState extends State<MyHeader> {
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: MyClipper(),
-      child: Container(
-        padding: EdgeInsets.only(left: 40, top: 50, right: 20),
-        height: 350,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.lightGreen[900],
-              Colors.green,
-            ],
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            SizedBox(height: 20),
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    child: SvgPicture.asset(
-                      widget.image,
-                      width: 230,
-                      fit: BoxFit.fitWidth,
-                      alignment: Alignment.topCenter,
-                    ),
-                  ),
-                  Positioned(
-                    left: 170,
-                    child: Text(
-                      "${widget.textTop} \n${widget.textBottom}",
-                      style: kHeadingTextStyle.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      ),
-                    ),
-                  ),
-                  Container(),
-                ],
-              ),
-            ),
+    return Container(
+      padding: EdgeInsets.only(left: 40, top: 50, right: 20),
+      height: 300,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.lightGreen[900],
+            Colors.green,
           ],
         ),
       ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          SizedBox(height: 20),
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  child: SizedBox(
+                    height: 280,
+                    width: MediaQuery.of(context).size.width * 0.30,
+                    child: FittedBox(
+                      child: SvgPicture.asset(
+                        widget.image,
+                        fit: BoxFit.fitWidth,
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 1,
+                  top: 30,
+                  child: SizedBox(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: FittedBox(
+                      child: Text(
+                        "${widget.textTop} \n${widget.textBottom}",
+                        style: kHeadingTextStyle.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
-  }
-}
-
-class MyClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height - 80);
-    path.quadraticBezierTo(
-        size.width / 2, size.height, size.width, size.height - 80);
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
   }
 }
